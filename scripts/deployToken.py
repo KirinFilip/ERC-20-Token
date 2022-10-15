@@ -3,7 +3,7 @@ from scripts.helpful_scripts import getAccount, LOCAL_BLOCKCHAIN_ENVIROMENTS
 import time
 from web3 import Web3
 
-initialSupply = Web3.toWei(1000, "ether")
+initialSupply = Web3.toWei(10000, "ether")
 
 
 def deployToken():
