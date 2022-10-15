@@ -4,7 +4,8 @@
 # TEST 4: Is the tax functioning as intended
 
 import pytest
-from brownie import reverts
+import brownie
+from web3 import Web3
 from scripts.deployToken import deployToken, initialSupply
 from scripts.helpful_scripts import getAccount
 
@@ -41,8 +42,15 @@ def test_unpause(contract):
 
 
 # burn function
-def test_burn():
-    pass
+def test_burn(contract):
+    contract.burn(1000)
+    assert contract.totalSupply() == initialSupply - 1000
+
+
+def test_burnWhenPaused(contract):
+    contract.pause()
+    with brownie.reverts():
+        contract.burn(1000)
 
 
 # transfer function
