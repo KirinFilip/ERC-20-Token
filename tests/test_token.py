@@ -58,14 +58,55 @@ def test_transfer():
     pass
 
 
+def test_transferWhenPaused():
+    pass
+
+
 # allowance function
+def test_allowance():
+    pass
+
+
+def test_allowanceWhenPaused():
+    pass
+
 
 # approve function
+def test_approve():
+    pass
+
+
+def test_approveWhenPaused():
+    pass
+
 
 # transferFrom function
+def test_transferFrom():
+    pass
+
+
+def test_transferFromWhenPaused():
+    pass
+
 
 # increaseAllowance function
+def test_increaseAllowance():
+    pass
+
+
+def test_increaseAllowanceWhenPaused():
+    pass
+
 
 # decreaseAllowance function
+def test_decreaseAllowance():
+    pass
+
+
+def test_decreaseAllowanceWhenPaused():
+    pass
+
 
 # _payTax function
+def test_payTax():
+    pass
