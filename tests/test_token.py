@@ -47,66 +47,84 @@ def test_burn(contract):
     assert contract.totalSupply() == initialSupply - 1000
 
 
-def test_burnWhenPaused(contract):
+def test_burn_WhenPaused(contract):
     contract.pause()
     with reverts():
         contract.burn(100)
 
 
 # transfer function
-def test_transfer():
-    pass
+def test_transfer(contract):
+    contract.transfer(accounts[1], 100)
+    assert contract.balanceOf(accounts[0]) == initialSupply - 100
+    assert contract.balanceOf(accounts[1]) == 100
 
 
-def test_transferWhenPaused():
-    pass
+def test_transfer_WhenPaused(contract):
+    contract.pause()
+    with reverts():
+        contract.transfer(accounts[1], 100)
+
+    # test when unpaused again
+    contract.unpause()
+    contract.transfer(accounts[1], 100)
+    assert contract.balanceOf(accounts[0]) == initialSupply - 100
+    assert contract.balanceOf(accounts[1]) == 100
 
 
 # allowance function
-def test_allowance():
-    pass
+def test_allowance(contract):
+    allowance = contract.allowance(contract.owner(), accounts[1])
+    assert allowance == 0
 
 
-def test_allowanceWhenPaused():
-    pass
+def test_allowance_WhenPaused(contract):
+    contract.pause()
+    with reverts():
+        contract.allowance(contract.owner(), accounts[1])
+
+    # test when unpaused again
+    contract.unpause()
+    allowance = contract.allowance(contract.owner(), accounts[1])
+    assert allowance == 0
 
 
 # approve function
-def test_approve():
+def test_approve(contract):
     pass
 
 
-def test_approveWhenPaused():
-    pass
+def test_approve_WhenPaused(contract):
+    contract.pause()
 
 
 # transferFrom function
-def test_transferFrom():
+def test_transferFrom(contract):
     pass
 
 
-def test_transferFromWhenPaused():
-    pass
+def test_transferFrom_WhenPaused(contract):
+    contract.pause()
 
 
 # increaseAllowance function
-def test_increaseAllowance():
+def test_increaseAllowance(contract):
     pass
 
 
-def test_increaseAllowanceWhenPaused():
-    pass
+def test_increaseAllowance_WhenPaused(contract):
+    contract.pause()
 
 
 # decreaseAllowance function
-def test_decreaseAllowance():
+def test_decreaseAllowance(contract):
     pass
 
 
-def test_decreaseAllowanceWhenPaused():
-    pass
+def test_decreaseAllowance_WhenPaused(contract):
+    contract.pause()
 
 
 # _payTax function
-def test_payTax():
+def test_payTax(contract):
     pass
