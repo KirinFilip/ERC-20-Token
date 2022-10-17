@@ -1,8 +1,3 @@
-# TEST 1: Is the token ERC-20 Token (test all ERC-20 functions)
-# TEST 2: Is the token burnable
-# TEST 3: Is the token pausable
-# TEST 4: Is the tax functioning as intended
-
 import pytest
 from brownie import accounts, reverts
 from web3 import Web3
