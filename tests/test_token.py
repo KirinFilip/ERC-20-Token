@@ -26,19 +26,15 @@ def test_mintInitialSupply(contract):
     assert contract.totalSupply() == initialSupply
 
 
-# pause function
-def test_pause(contract):
-    contract.pause()
-    assert contract.paused() == True
-
-
-# unpause function
-def test_unpause(contract):
+# pause/unpause function
+def test_pause_unpause(contract):
     assert contract.paused() == False
     contract.pause()
     assert contract.paused() == True
     contract.unpause()
     assert contract.paused() == False
+    contract.pause()
+    assert contract.paused() == True
 
 
 # burn function
@@ -91,40 +87,89 @@ def test_allowance_WhenPaused(contract):
 
 # approve function
 def test_approve(contract):
-    pass
+    contract.approve(accounts[1], 100)
+    assert contract.allowance(accounts[0], accounts[1]) == 100
 
 
 def test_approve_WhenPaused(contract):
     contract.pause()
+    with reverts():
+        contract.approve(accounts[1], 100)
+
+    contract.unpause()
+    contract.approve(accounts[1], 100)
+    assert contract.allowance(accounts[0], accounts[1]) == 100
 
 
 # transferFrom function
 def test_transferFrom(contract):
-    pass
+    contract.increaseAllowance(accounts[1], 500, {"from": accounts[0]})
+    contract.transferFrom(accounts[0], accounts[2], 100, {"from": accounts[1]})
+    assert contract.balanceOf(accounts[2]) == 100
+    assert contract.balanceOf(accounts[1]) == 0
+    assert contract.balanceOf(accounts[0]) == initialSupply - 100
 
 
 def test_transferFrom_WhenPaused(contract):
+    contract.increaseAllowance(accounts[1], 500, {"from": accounts[0]})
     contract.pause()
+    with reverts():
+        contract.transferFrom(accounts[0], accounts[2], 100, {"from": accounts[1]})
+
+    # test when unpaused again
+    contract.unpause()
+    contract.transferFrom(accounts[0], accounts[2], 100, {"from": accounts[1]})
+    assert contract.balanceOf(accounts[2]) == 100
+    assert contract.balanceOf(accounts[1]) == 0
+    assert contract.balanceOf(accounts[0]) == initialSupply - 100
 
 
 # increaseAllowance function
 def test_increaseAllowance(contract):
-    pass
+    contract.transfer(accounts[1], 1000)
+    contract.increaseAllowance(accounts[1], 500, {"from": accounts[0]})
+    assert contract.allowance(accounts[0], accounts[1]) == 500
 
 
 def test_increaseAllowance_WhenPaused(contract):
+    contract.transfer(accounts[1], 1000)
     contract.pause()
+    with reverts():
+        contract.increaseAllowance(accounts[1], 500, {"from": accounts[0]})
+
+    contract.unpause()
+    contract.increaseAllowance(accounts[1], 500, {"from": accounts[0]})
+    assert contract.allowance(accounts[0], accounts[1]) == 500
 
 
 # decreaseAllowance function
 def test_decreaseAllowance(contract):
-    pass
+    contract.transfer(accounts[1], 1000)
+    contract.increaseAllowance(accounts[1], 500, {"from": accounts[0]})
+    assert contract.allowance(accounts[0], accounts[1]) == 500
+
+    contract.decreaseAllowance(accounts[1], 250, {"from": accounts[0]})
+    assert contract.allowance(accounts[0], accounts[1]) == 250
 
 
 def test_decreaseAllowance_WhenPaused(contract):
+    contract.transfer(accounts[1], 1000)
+    contract.increaseAllowance(accounts[1], 500, {"from": accounts[0]})
+    assert contract.allowance(accounts[0], accounts[1]) == 500
+
     contract.pause()
+    with reverts():
+        contract.decreaseAllowance(accounts[1], 250, {"from": accounts[0]})
+
+    contract.unpause()
+    contract.decreaseAllowance(accounts[1], 250)
+    assert contract.allowance(accounts[0], accounts[1]) == 250
 
 
 # _payTax function
 def test_payTax(contract):
-    pass
+    contract.transfer(accounts[1], 1000)
+    contract.transfer(accounts[2], 1000)
+    contract.transfer(accounts[3], 1000, {"from": accounts[1]})
+    assert contract.balanceOf(accounts[3]) == 1000
+    # assert contract.balanceOf(accounts[0]) == initialSupply - 2000 + 100
