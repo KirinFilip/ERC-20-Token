@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.13;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
@@ -33,7 +33,6 @@ contract Token is ERC20, ERC20Burnable, Ownable, Pausable {
         public
         virtual
         override
-        whenNotPaused
         returns (bool)
     {
         amount = _payTax(amount);
@@ -45,7 +44,6 @@ contract Token is ERC20, ERC20Burnable, Ownable, Pausable {
         view
         virtual
         override
-        whenNotPaused
         returns (uint256)
     {
         return super.allowance(owner, spender);
@@ -55,7 +53,6 @@ contract Token is ERC20, ERC20Burnable, Ownable, Pausable {
         public
         virtual
         override
-        whenNotPaused
         returns (bool)
     {
         return super.approve(spender, amount);
@@ -65,7 +62,7 @@ contract Token is ERC20, ERC20Burnable, Ownable, Pausable {
         address from,
         address to,
         uint256 amount
-    ) public virtual override whenNotPaused returns (bool) {
+    ) public virtual override returns (bool) {
         amount = _payTax(amount);
         return super.transferFrom(from, to, amount);
     }
@@ -74,7 +71,6 @@ contract Token is ERC20, ERC20Burnable, Ownable, Pausable {
         public
         virtual
         override
-        whenNotPaused
         returns (bool)
     {
         return super.increaseAllowance(spender, addedValue);
@@ -95,9 +91,9 @@ contract Token is ERC20, ERC20Burnable, Ownable, Pausable {
     // Pays taxes to the owner of the contract
     // The tax is calculated as sales tax
     function _payTax(uint256 amount) internal virtual returns (uint256) {
-        uint256 tax = amount * (taxPercentage / 100);
+        uint256 tax = (amount * taxPercentage) / 100;
         _transfer(msg.sender, owner(), tax);
-        amount = amount - tax;
+        amount = (amount - tax);
         return amount;
     }
 

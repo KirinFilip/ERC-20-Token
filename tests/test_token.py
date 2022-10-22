@@ -164,7 +164,5 @@ def test_decreaseAllowance_WhenPaused(contract):
 # _payTax function
 def test_payTax(contract):
     contract.transfer(accounts[1], 1000)
-    contract.transfer(accounts[2], 1000)
-    contract.transfer(accounts[3], 1000, {"from": accounts[1]})
-    assert contract.balanceOf(accounts[3]) == 1000
-    # assert contract.balanceOf(accounts[0]) == initialSupply - 2000 + 100
+    assert contract.balanceOf(accounts[1]) == 1000 - 100  # tax = 100
+    assert contract.balanceOf(accounts[0]) == initialSupply - 1000 + 100  # tax = 100
