@@ -7,7 +7,7 @@
 * Pausable
 * Transfer tax
 
-## What is ERC20?
+## What is ERC20, Ethereum Request for Comment, number 20?
 
 ERC-20 is the technical standard for fungible tokens created using the Ethereum blockchain. A fungible token is one that is interchangeable with another token, in other words, they have a property that makes each Token be exactly the same (in type and value) as another Token. For example, an ERC-20 Token acts just like the ETH, meaning that 1 Token is and will always be equal to all the other Tokens. This makes ERC20 tokens useful for things like a medium of exchange currency, voting rights, staking, and more.
 
@@ -20,3 +20,15 @@ ERC-20 is the technical standard for fungible tokens created using the Ethereum 
 * an ounce of gold
 * and more...
 
+### Contents of the Standard
+
+ERC-20 contains several functions and events that a token must implement. Keep in mind that this standard also governs actions that smart contracts take for the tokens being created. The minimum of functions and information needed in an ERC-20 compliant token are:
+
+* **TotalSupply**: The total number of tokens that will ever be issued
+* BalanceOf: The account balance of a token owner's account
+* Transfer: Automatically executes transfers of a specified number of tokens to a specified address for transactions using the token
+* TransferFrom: Automatically executes transfers of a specified number of tokens from a specified address using the token
+* Approve: Allows a spender to withdraw a set number of tokens from a specified account, up to a specific amount
+* Allowance: Returns a set number of tokens from a spender to the owner
+* Transfer: An event triggered when a transfer is successful (an event)
+* Approval: A log of an approved event (an event)
