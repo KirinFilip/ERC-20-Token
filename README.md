@@ -1,6 +1,6 @@
 # ERC-20 Token
 
-### Features:
+## Features:
 
 * Fixed supply
 * Burnable
