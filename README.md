@@ -6,3 +6,6 @@
 * Burnable
 * Pausable
 * Transfer tax
+
+## What is ERC20?
+sad
