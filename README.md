@@ -9,5 +9,4 @@
 
 ## What is ERC20?
 
-
-sfdgdss
+ERC-20 is the technical standard for fungible tokens created using the Ethereum blockchain. A fungible token is one that is interchangeable with another token
